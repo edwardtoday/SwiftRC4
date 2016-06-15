@@ -25,7 +25,7 @@ class RC4Tests: XCTestCase {
 		let plaintext = "pedia"
 		let plaintextData = plaintext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
 		let encodedData = RC4.crypt(plaintextData!, key: "Wiki")
-		var bytes = [Byte](count: encodedData.length, repeatedValue: 0)
+		var bytes = [UInt8](count: encodedData.length, repeatedValue: 0)
 		encodedData.getBytes(&bytes, length: encodedData.length)
 		XCTAssertTrue(bytes == [0x10, 0x21, 0xBF, 0x04, 0x20], "Encoded data must match")
 	}
@@ -34,7 +34,7 @@ class RC4Tests: XCTestCase {
 		let plaintext = "Plaintext"
 		let plaintextData = plaintext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
 		let encodedData = RC4.crypt(plaintextData!, key: "Key")
-		var bytes = [Byte](count: encodedData.length, repeatedValue: 0)
+		var bytes = [UInt8](count: encodedData.length, repeatedValue: 0)
 		encodedData.getBytes(&bytes, length: encodedData.length)
 		XCTAssertTrue(bytes == [0xBB, 0xF3, 0x16, 0xE8, 0xD9, 0x40, 0xAF, 0x0A, 0xD3], "Encoded data must match")
 	}
@@ -43,7 +43,7 @@ class RC4Tests: XCTestCase {
 		let plaintext = "Attack at dawn"
 		let plaintextData = plaintext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
 		let encodedData = RC4.crypt(plaintextData!, key: "Secret")
-		var bytes = [Byte](count: encodedData.length, repeatedValue: 0)
+		var bytes = [UInt8](count: encodedData.length, repeatedValue: 0)
 		encodedData.getBytes(&bytes, length: encodedData.length)
 		XCTAssertTrue(bytes == [0x45, 0xA0, 0x1F, 0x64, 0x5F, 0xC3, 0x5B, 0x38, 0x35, 0x52, 0x54, 0x4B, 0x9B, 0xF5], "Encoded data must match")
 	}
@@ -60,9 +60,9 @@ class RC4Tests: XCTestCase {
 		let plaintext = "pedia"
 		let plaintextData = plaintext.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
 		let cryptor = RC4(key: "Wiki")
-		let expectedData = NSData(bytes: [0x10, 0x21, 0xBF, 0x04, 0x20] as [Byte], length: 5)
+		let expectedData = NSData(bytes: [0x10, 0x21, 0xBF, 0x04, 0x20] as [UInt8], length: 5)
 		var result = NSMutableData()
-		for i in Range<Int>(start: 0, end: plaintextData.length) {
+		for i in Range<Int>(0 ..< plaintextData.length) {
 			let textData = plaintextData.subdataWithRange(NSMakeRange(i, 1))
 			let encodedData = cryptor.crypt(textData)
 			result.appendData(encodedData)
